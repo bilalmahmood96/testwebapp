@@ -1,0 +1,62 @@
+﻿@model store.Models.dataclass
+@{
+    ViewBag.Title = "Newpage";
+}
+<body>
+    <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
+        <h5 class="my-0 mr-md-auto font-weight-normal">My Store</h5>
+        <nav class="my-2 my-md-0 mr-md-3">
+            <a class="p-2 text-dark" href="#">Support</a>
+            <a class="p-2 text-dark" href="#">Pricing</a>
+        </nav>
+    </div>
+    <div class="pricing-header text-center">
+        <h1 class="display-4">Item Detail</h1>
+    </div>
+    <div class="container">
+        <div class="card-deck mb-6 text-center col-5" >
+            <div class="card mb-4 ml-4 box-shadow">
+                <div class="card-header">
+                    <h4 class="my-0 font-weight-normal">@Model.Name</h4>
+                </div>
+                <div class="card-body">
+                    <ul class="list-unstyled  ">
+                        <li><span>ID: @Model.ID </span></li>
+                        <li><span>Name: @Model.Name</span></li>
+                        <li><span>Quantity: @Model.Quantity</span></li>
+                        <li><span>Retail Price: @Model.RetailPrice</span></li>
+                        <li><span>Unit Price: @Model.UnitPrice</span></li>
+                    </ul>
+                    <button type="button" >Edit</button>
+                    <button type="button" >Delete</button>
+                </div>
+            </div>
+           </div>
+            </div>
+        <footer class="pt-4 my-md-5 pt-md-5 border-top">
+            <div>
+                <div class="col-12 col-md">
+                    <img class="mb-2" src="~/img/shopping-cart.png" alt="" width="24" height="24">
+                    <small class="d-block mb-3 text-muted">© 1996-2019</small>
+                </div>
+            </div>
+        </footer>
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script>
+        window.jQuery || document.write('<script src="../../assets/js/vendor/jquery-slim.min.js"><\/script>')
+    </script>
+    <script src="../../assets/js/vendor/popper.min.js"></script>
+    <script src="../../dist/js/bootstrap.min.js"></script>
+    <script src="../../assets/js/vendor/holder.min.js"></script>
+    <script>
+        Holder.addTheme('thumb', {
+            bg: '#55595c',
+            fg: '#eceeef',
+            text: 'Thumbnail'
+        });
+    </script>
+
+</body>
