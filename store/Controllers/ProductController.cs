@@ -11,7 +11,7 @@ namespace store.Controllers
 {
     public class ProductController : Controller
     {
-        // GET: Product
+        [HttpGet]
         public ActionResult Store()
         {
 
@@ -37,6 +37,19 @@ namespace store.Controllers
             Sync();
             return RedirectToAction("Store");
         }
+        [HttpGet]
+        public ActionResult Create() {
+            return View(new dataclass());
+
+        }
+        [HttpPost]
+        public ActionResult Create(dataclass db)
+        {
+            //var obj = DB.myDB.FindIndex(a => a.ID == db.ID);
+            DB.myDB.Add(db);
+            Sync();
+            return RedirectToAction("Store");
+        }
 
         [HttpGet]
         public ActionResult Edit(string ID)
@@ -47,21 +60,20 @@ namespace store.Controllers
 
         public void Sync() {
 
-         //DB.myDB
-         //   var obj = DB.myDB.FindIndex(a => a.ID == db.ID);
-         //   DB.myDB[obj] = db;
-         //   DataContractJsonSerializer js = new DataContractJsonSerializer();
-         //   MemoryStream Obj = new MemoryStream();
-         //   js.WriteObject(msObj, bsObj);
-         //   msObj.Position = 0;
-         //   StreamReader sr = new S   treamReader(msObj);
          var text  = JsonConvert.SerializeObject(DB.myDB);
             string textFile = Server.MapPath("/Models/data.json");
             System.IO.File.WriteAllText(textFile, text);
 
 
         }
-
+        //[HttpPost]
+        public ActionResult DeleteItem(string ID)
+        {
+            var obj = DB.myDB.Find(a => a.ID == ID);
+            DB.myDB.Remove(obj);
+            Sync();
+            return RedirectToAction("Store");
+        }
     }
 
 }
