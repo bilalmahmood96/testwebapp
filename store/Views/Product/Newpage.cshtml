@@ -14,7 +14,7 @@
         <h1 class="display-4">Item Detail</h1>
     </div>
     <div class="container">
-        <div class="card-deck mb-6 text-center col-5" >
+        <div class="card-deck mb-6 text-center col-6" >
             <div class="card mb-4 ml-4 box-shadow">
                 <div class="card-header">
                     <h4 class="my-0 font-weight-normal">@Model.Name</h4>
@@ -22,13 +22,18 @@
                 <div class="card-body">
                     <ul class="list-unstyled  ">
                         <li><span>ID: @Model.ID </span></li>
-                        <li><span>Name: @Model.Name</span></li>
-                        <li><span>Quantity: @Model.Quantity</span></li>
-                        <li><span>Retail Price: @Model.RetailPrice</span></li>
-                        <li><span>Unit Price: @Model.UnitPrice</span></li>
+                        <li>@Html.Label("Name: ") @Html.EditorFor(Model => Model.Name)</li>
+                        <li>@Html.Label("Quantity: ")     @Html.EditorFor(Model => Model.Quantity)</li>
+                        <li>@Html.Label("Retail Price: ") @Html.EditorFor(Model => Model.RetailPrice)</li>
+                        <li>@Html.Label("Unit Price: ")   @Html.EditorFor(Model => Model.UnitPrice)</li>
                     </ul>
-                    <button type="button" >Edit</button>
-                    <button type="button" >Delete</button>
+                    @using (Html.BeginForm("Store", "Product", FormMethod.Post))
+                    {
+                        @Html.EditorForModel()
+                        <input type="submit" value="Submit" formaction="Edit" />
+                    }
+                    <button type="button" value="Delete">Delete</button>
+
                 </div>
             </div>
            </div>

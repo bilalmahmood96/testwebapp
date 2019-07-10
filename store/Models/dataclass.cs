@@ -17,8 +17,6 @@ namespace store.Models
         public string LastUpdateDate { get; set; }
         public string LastUpdateby { get; set; }
     }
-    
-
     public class DB
     {
         public static List<dataclass> myDB { get; set; }
