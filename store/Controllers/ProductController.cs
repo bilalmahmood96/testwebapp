@@ -45,7 +45,6 @@ namespace store.Controllers
         [HttpPost]
         public ActionResult Create(dataclass db)
         {
-            //var obj = DB.myDB.FindIndex(a => a.ID == db.ID);
             DB.myDB.Add(db);
             Sync();
             return RedirectToAction("Store");

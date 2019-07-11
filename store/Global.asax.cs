@@ -18,8 +18,7 @@ namespace store
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
-            BundleConfig.RegisterBundles(BundleTable.Bundles);
-            
+            BundleConfig.RegisterBundles(BundleTable.Bundles);   
             string textFile = Server.MapPath("/Models/data.json");
             if (File.Exists(textFile))
             {
