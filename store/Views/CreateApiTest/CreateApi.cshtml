@@ -1,0 +1,176 @@
+﻿<meta name="viewport" content="width=device-width" />
+<style>
+    .maindiv {
+        width: 700px;
+        height: 70px;
+    }
+</style>
+<title>CreateApi</title>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="form-group">
+        <label class="control-label col-md-2" for="Name">Name</label>
+        <div class=" maindiv">
+            <div style="width:400px; height: 70px; float: left">
+                <input class="form-control text-box single-line" id="Name" name="Name" type="text" required pattern="[A-Za-z ]+">
+            </div>
+            <div id="test1" class="alert alert-danger" style="width:300px; height: 70px; display: none; float: left "></div>
+        </div>
+        <span class="field-validation-valid text-danger" data-valmsg-for="Name" data-valmsg-replace="true"></span>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-2" for="Category">Categories</label>
+        <div class=" maindiv">
+            <div style="width:400px; height: 70px; float: left">
+                <select class="form-control text-box single-line" id="Dropdown" name="Dropdown"></select>
+                </div>
+            </div>
+        </div>
+            <div class="form-group">
+                <label class="control-label col-md-2" for="Quantity">Quantity</label>
+                <div class=" maindiv">
+                    <div style="width:400px; height: 70px; float: left">
+                        <input class="form-control text-box single-line" required id="Quantity" name="Quantity" type="number">
+                    </div>
+                    <span class="field-validation-valid text-danger" data-valmsg-for="Quantity" data-valmsg-replace="true"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-md-2" for="UnitPrice">UnitPrice</label>
+                <div class=" maindiv">
+                    <div style="width:400px; height: 70px; float: left">
+                        <input class="form-control text-box single-line" required id="UnitPrice" name="UnitPrice" type="number">
+                    </div>
+                    <span class="field-validation-valid text-danger" data-valmsg-for="UnitPrice" data-valmsg-replace="true"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-md-2" for="RetailPrice">RetailPrice</label>
+                <div class=" maindiv">
+                    <div style="width:400px; height: 70px; float: left">
+                        <input class="form-control text-box single-line" required id="RetailPrice" name="RetailPrice" type="number">
+                    </div>
+                    <div id="test4" class="alert alert-danger" style="width:300px; height: 70px; display: none; float: left "></div>
+                    <span class="field-validation-valid text-danger" data-valmsg-for="RetailPrice" data-valmsg-replace="true"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <button type="button" class="btn btn-sm btn-success" onclick="SubmitForm()"> Create </button>
+                </div>
+            </div>
+            <input id="myformsubmit" type="submit" style="display:none" />
+            }
+            @section scripts{
+                <script>
+                        var setting1 = {
+                            "async": true,
+                            "crossDomain": true,
+                            "url": "http://localhost:58734/api/dropdown",
+                            "method": "GET",
+                            "headers": {
+                                "Cache-Control": "no-cache",
+                                "cache-control": "no-cache"                       
+                            }
+                        }
+                        $.ajax(setting1).done(function (response) {
+                            var s = '<option value="-1">Please Select a Category</option>';
+                            for (var i = 0; i < response.length; i++) {
+                                s += '<option value="' + response[i].categoryName + '">' + response[i].categoryName + '</option>'
+                            }
+                            $("#Dropdown").html(s);
+                        });
+                    function SubmitForm() {
+                        var myForm = $('form');
+                        if (myForm[0].checkValidity()) {
+                            Createfunc();
+                        }
+                        else {
+                            myForm.find(':submit').click();
+                        }
+                    }
+                    function divcon1() {
+                        var divenable1 = document.getElementById("test1");
+                        if (divenable1.style.display == 'none') {
+                            divenable1.style.display = 'block';
+                        }
+                        else {
+                            document.getElementById("test1");
+                        }
+                    }
+                    function divcon() {
+                        var divenable = document.getElementById("test4");
+                        if (divenable.style.display == 'none') {
+                            divenable.style.display = 'block';
+                        }
+                        else {
+                            document.getElementById("test4");
+                        }
+                    }
+                    var num = /^[0-9]+$/;
+                    var msgnum = "Number Allowed";
+                    var msgrange = "Not in range";
+                    function Createfunc() {
+                        var Name = document.getElementById('Name');
+                        var Cat = document.getElementById("Dropdown");
+                        var Categories = Cat.options[Cat.selectedIndex].value;
+                        var Quantity = document.getElementById('Quantity');
+                        var UnitPrice = document.getElementById('UnitPrice');
+                        var RetailPrice = document.getElementById('RetailPrice');
+                        var obj = {
+                            "ID": null,
+                            "Name": Name.value,
+                            "Categories": Categories,
+                            "Quantity": Quantity.value,
+                            "UnitPrice": UnitPrice.value,
+                            "RetailPrice": RetailPrice.value
+                        }
+                        if (Name.value.length <= 18 && Name.value.length >= 3) {
+                            var letters = /^[a-zA-Z ]/;
+                            if ($('#test1').is(':visible')) {
+                                test1.style.visibility = 'hidden';
+                            }
+                            if (Name.value.match(letters)) {
+                                if (RetailPrice.value >= UnitPrice.value) {
+                                    if ($('#test4').is(':visible')) {
+                                        test4.style.visibility = 'hidden';
+                                    }
+                                    var strdata = JSON.stringify(obj);
+                                    var settings = {
+                                        "async": true,
+                                        "crossDomain": true,
+                                        "url": "http://localhost:58734/api/Create",
+                                        "method": "POST",
+                                        "headers": {
+                                            "Content-Type": "application/json",
+                                            "Accept": "*/*",
+                                            "Cache-Control": "no-cache",
+                                            "cache-control": "no-cache"
+                                        },
+                                        "processData": false,
+                                        "data": strdata
+                                    }
+                                    $.ajax(settings).done(function (response) {
+                                        console.log(response);
+                                        window.location.href = '/Product/Store/';
+                                    });
+                                }
+                                else {
+                                    divcon();
+                                    $("#test4").html("Retail Price should be equal to or greater than unit price");
+                                }
+
+                            }
+                            else {
+                                divcon1();
+                                $("#test1").html("In Name only letters allowed")
+                            }
+                        }
+                        else {
+                            divcon1();
+                            $("#test1").html("letters in name must be in between 3 to 18 ");
+                        }
+                    }
+                </script>
+            }

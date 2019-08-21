@@ -18,15 +18,15 @@ namespace store
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
-            BundleConfig.RegisterBundles(BundleTable.Bundles);   
-            string textFile = Server.MapPath("/Models/data.json");
+            BundleConfig.RegisterBundles(BundleTable.Bundles);
+            string textFile = Server.MapPath("/Models/autoIDdata.json");
             if (File.Exists(textFile))
             {
                 // Read entire text file content in one string  
                 string text = File.ReadAllText(textFile);
                 DB.myDB = JsonConvert.DeserializeObject<List<dataclass>>(text);
-                //Console.WriteLine(text);
             }
+        
         }
     }
 }

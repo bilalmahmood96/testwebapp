@@ -1,0 +1,176 @@
+﻿@model store.Models.dataclass
+<div class="form-horizontal">
+    <h4>Edit</h4>
+    <hr>
+    @Html.HiddenFor(model => model.ID)
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+        @*<div class="form-group">
+            @Html.LabelFor(model => model.ID, htmlAttributes: new { @class = "control-label col-md-2" })
+
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ID, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ID, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
+        <div class="form-group">
+            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2" for="Category">Categories</label>
+            <div class=" maindiv col-md-10">
+                <div style="width:1000px; height: 70px; float: left">
+                    <select class="form-control text-box single-line" id="Dropdown" name="Dropdown"></select>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Quantity, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Quantity, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.UnitPrice, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.UnitPrice, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.UnitPrice, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.RetailPrice, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.RetailPrice, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.RetailPrice, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div id="test" class="alert alert-danger" style="display: none"> </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <button type="submit" class="btn btn-sm btn-success" onclick="EditFunc()">Save</button>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    
+@section scripts{
+    <script>
+        var setting1 = {
+            "async": true,
+            "crossDomain": true,
+            "url": "http://localhost:58734/api/dropdown",
+            "method": "GET",
+            "headers": {
+                "Cache-Control": "no-cache",
+                "cache-control": "no-cache"
+            }
+        }
+        //$.ajax(setting1).done(function (response) {
+        //    var s = '<option value="-1">Please Select a Category</option>';
+        //    for (var i = 0; i < response.length; i++) {
+        //        s += '<option value="' + response[i].categoryName + '">' + response[i].categoryName + '</option>'
+        //    }
+        //    $("#Dropdown").html(s);
+        //});
+            let ID = document.getElementById('ID');
+        let Name = document.getElementById('Name');
+        let Categories = document.getElementById("Dropdown");
+        //let Categories = Cat.options[Cat.selectedIndex].value;
+        let Quantity = document.getElementById('Quantity');
+        let UnitPrice = document.getElementById('UnitPrice');
+        let RetailPrice = document.getElementById('RetailPrice');
+        var settings = {
+            "async": true,
+            "crossDomain": true,
+            "url": "http://localhost:58734/Api/getID/" + document.getElementById('ID').value,
+            "method": "GET",
+            "headers": {
+                "Accept": "*/*",
+                "Cache-Control": "no-cache",
+                "cache-control": "no-cache"
+            }
+        }
+        $.ajax(settings).done(function (response) {
+            console.log(response);
+            document.getElementById('Name').value = response.Name;
+            $.ajax(setting1).done(function (response1) {
+                var s = '<option value="' + response.Categories + '">' + response.Categories + '</option>';
+         for (var i = 0; i < response1.length; i++) {
+         s += '<option value="' + response1[i].categoryName + '">' + response1[i].categoryName + '</option>'
+             }
+             $("#Dropdown").html(s);
+         });
+            document.getElementById('Quantity').value = response.Quantity;
+            document.getElementById('UnitPrice').value = response.UnitPrice;
+            document.getElementById('RetailPrice').value = response.RetailPrice;
+        });
+        function divcon() {
+            var divenable = document.getElementById("test");
+            if (divenable.style.display == 'none') {
+                divenable.style.display = 'block';
+            }
+            else {
+                document.getElementById("test");
+            }
+        }
+        function EditFunc() {
+            var obj = {
+                "ID": ID.value,
+                "Name": Name.value,
+                "Categories": Categories.value,
+                "Quantity": Quantity.value,
+                "UnitPrice": UnitPrice.value,
+                "RetailPrice": RetailPrice.value,
+            }
+            if (Name.value.length <= 18 && Name.value.length >= 3) {
+                var letters = /^[a-zA-Z ]/;
+                if (Name.value.match(letters)) {
+                    if (RetailPrice.value >= UnitPrice.value) {
+                        var strData = JSON.stringify(obj);
+                        var settings = {
+                "async": true,
+                "crossDomain": true,
+                "url": "http://localhost:58734/api/Edit/",
+                "method": "POST",
+                "headers": {
+                    "Content-Type": "application/json",
+                    "Accept": "*/*",
+                    "Cache-Control": "no-cache",
+                    "cache-control": "no-cache"
+                },
+                "processData": false,
+                "data": strData
+            }
+            $.ajax(settings).done(function (response) {
+                console.log(response);
+            });
+                    }
+                    else {
+                        divcon();
+                        $("#test").html("Retail Price should be equal to or greater than unit price");
+                    }
+
+                }
+                else {
+                    divcon();
+                    $("#test").html("In Name only letters allowed")
+                }
+            }
+            else {
+                divcon();
+                $("#test").html("letters in name must be in between 3 to 18 ");
+            }
+        }
+    </script>
+}

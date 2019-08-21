@@ -1,0 +1,33 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+    
+
+@section scripts{
+
+    <script>
+        
+        $(document).ready(function () {
+            //$.get("http://localhost:58734/api/Hello?Categories=Edible", function (response) {
+            // console(response);
+            
+            let myurl = 'http://localhost:58734/api/Hello?Categories=Edible';
+
+            $.ajax({
+                method: 'GET',
+                url: myurl,
+            /*   dataType: 'json',*/ //change the datatype to 'jsonp' works in most cases
+                success: function (data) {
+                    console.log(data);
+                }
+            })
+
+        })
+    </script>
+
+}
+
+

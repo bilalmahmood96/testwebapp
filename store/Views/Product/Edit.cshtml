@@ -1,15 +1,11 @@
 ﻿@model store.Models.dataclass
-
 @{
     ViewBag.Title = "Edit";
 }
-
 <h2>Edit</h2>
-
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
     <div class="form-horizontal">
         <h4>dataclass</h4>
         <hr />
